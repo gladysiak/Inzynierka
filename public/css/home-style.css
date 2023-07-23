@@ -1,0 +1,306 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins');
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+body {
+    min-height: 100vh;
+    background-color: #23232a;
+    background-size: cover;
+}
+ol, ul {
+    padding-left: 0!important;
+}
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 80px;
+    height: 100%;
+    background: rgba(0, 0, 0, .5);
+    backdrop-filter: blur(5px);
+    border-right: 2px solid rgba(255, 255, 255, .07);
+    padding: 6px 14px;
+    transition: .5s ease;
+}
+.sidebar.active {
+    width: 220px;
+}
+.sidebar .logo-content .logo{
+    display: flex;
+    align-items: center;
+    color: #fff;
+    width: 100%;
+    height: 50px;
+    pointer-events: none;
+    opacity: 0;
+    transition: .3s ease;
+}
+.sidebar.active .logo-content .logo {
+    opacity: 1;
+}
+.logo-content .logo i {
+    font-size: 28px;
+    margin-right:5px;
+}
+.logo-content .logo h1 {
+    font-size: 20px;
+}
+.sidebar #abc {
+    position:absolute;
+    top: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    color:#fff;
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 50px;
+}
+.sidebar.active #abc {
+    left: 90%;
+}
+.sidebar ul {
+    margin-top: 20px;
+}
+.sidebar ul li {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    list-style: none;
+    margin:5px 0;
+    line-height: 50px;
+}
+.sidebar ul li a {
+    display:flex;
+    align-items: center;
+    color:#fff;
+    text-decoration: none;
+    border-radius: 6px;
+    white-space: nowrap;
+    transition: .5s ease;
+}
+
+.sidebar ul li a:hover{
+    background: rgba(255, 255, 255, .1);
+}
+.sidebar ul .list-item.active a {
+    background: #3a75e2;
+}
+.sidebar ul li i{
+    min-width: 50px;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+}
+.sidebar .links-name{
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .3s ease ;
+}
+.sidebar.active .links-name{
+    transition-delay: .2s ;
+    opacity: 1;
+    pointer-events: auto;
+}
+.sidebar .list-logout {
+    position: absolute;
+    bottom: 0;
+    margin: 15px 0;
+    width: 64%;
+}
+.sidebar.active .list-logout {
+    width: 89%;
+}
+
+.logout-button {
+    display: flex;
+    align-items: center;
+    color: #fff;
+    text-decoration: none;
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 0;
+    outline: none;
+    width: 100%;
+    border-radius: 6px;
+}
+
+.logout-button:hover {
+    background: rgba(255, 255, 255, .1);
+}
+
+.error-message {
+    color: red;
+    margin-bottom: 0!important;
+    padding-top: 5px;
+}
+
+.message {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px;
+    background-color: lightgreen;
+    color: black;
+    text-align: center;
+}
+
+.search-form {
+    display: flex;
+    width: 100%;
+}
+
+.search-form > div {
+    flex: 1;
+    display: flex;
+}
+
+.search-form input[type="text"] {
+    flex: 1;
+    padding: 10px;
+}
+
+.search-form button[type="submit"] {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+
+/* bloki gier */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #23232a;
+    color: #ececec;
+    padding: 4rem;
+
+}
+
+.search{
+    position: fixed;
+    top:0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 20px;
+    background-color: #23232a;
+}
+
+input{
+    padding: 10px 20px;
+    margin: 0 20px;
+    outline:none;
+    border: 3px solid #9c45ff;
+    border-radius: 15px;
+    color: #9c45ff;
+}
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 40px 0;
+
+}
+
+.container .card {
+    position: relative;
+    width: 320px;
+    height: 440px;
+    box-shadow: inset 5px 5px 5px 5px rgba(0, 0, 0, 0.2),
+    inset -5px -5px 15px rgba(255, 255, 255, 0.1),
+    5px 5px 15px rgba(0, 0, 0, 0.3),  -5px -5px 15px rgba(255, 255, 255, 0.1);
+    margin: 30px;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.container .card .box {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+    background-color: #2a2b2f;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    border-radius: 15px;
+    border: 2px solid #1e1f23;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: 0.5s;
+}
+
+.container .card:hover .box {
+    box-shadow: 0 40px 70px rgba(0, 0, 0, 0.5);
+    transform: translateY(-50px);
+    background: linear-gradient(45deg, #ff45e0, #9c45ff);
+}
+.container .card .box .content{
+    padding: 20px;
+    text-align: center;
+}
+.container .card .box .content h1 {
+    font-size: 35px;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.5);
+    z-index: 1;
+    transition: 0.05s;
+}
+.container .card .box .content a {
+    position: relative;
+    display: inline-block;
+    padding: 8px 20px;
+    background-color: rgb(170, 33, 204);
+    margin-top: 15px;
+    border-radius: 20px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 400;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    transition: 0.5s;
+}
+.container .card:hover .box .content a {
+    letter-spacing: 2px;
+}
+
+/* end bloki gier */
+
+.request-button {
+    position: relative;
+    display: block;
+    padding: 8px 20px;
+    background-color: rgb(170, 33, 204);
+    margin: 15px auto;
+    border-radius: 20px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 400;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    transition: 0.5s;
+    width: fit-content;
+
+}
+
+.fc-content{
+    display: flex;
+    justify-content: center;
+}

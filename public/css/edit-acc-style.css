@@ -1,0 +1,218 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins');
+*
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #23232a;
+}
+.box{
+    position: relative;
+    width: 480px;
+    height: 520px;
+    background: #1c1c1c;
+    box-shadow: 0 0 80px #483D8B ;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.box .form{
+    position: absolute;
+    inset: 4px;
+    background: #222;
+    padding: 50px 40px;
+    border-radius: 8px;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+}
+.box .form h1{
+    color: #fff;
+    font-weight: 500;
+    text-align: center;
+    letter-spacing: 0.1em;
+    font-size: 36px;
+    padding: 10px;
+}
+
+.box .form h2{
+    color: #fff;
+    font-weight: 500;
+    text-align: left;
+    letter-spacing: 1px;
+    padding: 10px;
+    font-size: 20px;
+}
+
+.box .form p{
+    color: #fff;
+    font-weight: 500;
+    text-align: left;
+    letter-spacing: 1px;
+    padding: 10px;
+    font-size: 14px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #483D8B;
+    border-top: 0;
+}
+
+.btn{
+    height: 30px;
+    width: 25%;
+    outline: none;
+    color: #fff;
+    border: none;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 20px;
+    letter-spacing: 2px;
+    background:#483D8B;
+    cursor: pointer;
+}
+
+
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 80px;
+    height: 100%;
+    background: rgba(0, 0, 0, .5);
+    backdrop-filter: blur(5px);
+    border-right: 2px solid rgba(255, 255, 255, .07);
+    padding: 6px 14px;
+    transition: .5s ease;
+}
+.sidebar.active {
+    width: 220px;
+}
+.sidebar .logo-content .logo{
+    display: flex;
+    align-items: center;
+    color: #fff;
+    width: 100%;
+    height: 50px;
+    pointer-events: none;
+    opacity: 0;
+    transition: .3s ease;
+}
+.sidebar.active .logo-content .logo {
+    opacity: 1;
+}
+.logo-content .logo i {
+    font-size: 28px;
+    margin-right:5px;
+}
+.logo-content .logo h1 {
+    font-size: 20px;
+}
+.sidebar #abc {
+    position:absolute;
+    top: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    color:#fff;
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 50px;
+}
+.sidebar.active #abc {
+    left: 90%;
+}
+.sidebar ul {
+    margin-top: 20px;
+}
+.sidebar ul li {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    list-style: none;
+    margin:5px 0;
+    line-height: 50px;
+}
+.sidebar ul li a {
+    display:flex;
+    align-items: center;
+    color:#fff;
+    text-decoration: none;
+    border-radius: 6px;
+    white-space: nowrap;
+    transition: .5s ease;
+}
+.sidebar ul li a:hover{
+    background: rgba(255, 255, 255, .1);
+}
+.sidebar ul .list-item.active a {
+    background: #483D8B;
+}
+.sidebar ul li i{
+    min-width: 50px;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+}
+.sidebar .links-name{
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .3s ease ;
+}
+.sidebar.active .links-name{
+    transition-delay: .2s ;
+    opacity: 1;
+    pointer-events: auto;
+}
+.sidebar .list-logout {
+    position: absolute;
+    bottom: 0;
+    margin: 15px 0;
+    width: 64%;
+}
+.sidebar.active .list-logout {
+    width: 89%;
+}
+
+.logout-button {
+    display: flex;
+    align-items: center;
+    color: #fff;
+    text-decoration: none;
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 0;
+    outline: none;
+    width: 100%;
+    border-radius: 6px;
+}
+
+.logout-button:hover {
+    background: rgba(255, 255, 255, .1);
+}
+
+.error-message {
+    color: red;
+    margin-bottom: 0!important;
+    padding-top: 5px;
+}
+
+.message {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px;
+    background-color: lightgreen;
+    color: black;
+    text-align: center;
+}

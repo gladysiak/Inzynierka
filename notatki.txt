@@ -1,0 +1,4 @@
+// Użycie fakrera
+use Faker\Factory;
+$faker = Factory::create();
+

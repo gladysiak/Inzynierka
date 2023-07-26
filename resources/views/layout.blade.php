@@ -61,17 +61,6 @@
 
 @yield('content')
 
-@auth
-    @php
-        $user = auth()->user();
-        $latestEventId = $user->last_event_id;
-    @endphp
-    @if ($latestEventId)
-        <div class="alert-success" role="alert">
-            Nowe wydarzenie zostało dodane przez członka grupy!
-        </div>
-    @endif
-@endauth
 
 <div class="sidebar">
     <div class="logo-content">

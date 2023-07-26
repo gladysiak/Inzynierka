@@ -24,7 +24,6 @@ class FullcalendarController extends Controller
         $query->orWhereIn('group_id', $groupIds);
     })->get();
    
-
     if ($user->last_event_id) {
         // Jeśli last_event_id jest ustawione, wyświetl powiadomienie na stronie głównej
         $user->last_event_id = null; // Ustaw last_event_id na null, aby nie wyświetlać powiadomienia ponownie
@@ -35,7 +34,8 @@ class FullcalendarController extends Controller
     $groups = Group::all(); // Pobierz wszystkie grupy
     $selectedGroupId = Session::get('selected_group_id'); // Pobierz identyfikator grupy z sesji
 
-    return view('calendar.fullcalendar', compact('groups', 'selectedGroupId', 'user', 'events'));
+    return view('calendar.fullcalendar', compact('groups', 'selectedGroupId', 'user', 'events',));
+    
     }
 
 
@@ -83,50 +83,56 @@ class FullcalendarController extends Controller
 
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'title' => 'required|string',
-            'start' => 'required|date',
-            'end' => 'required|date|after_or_equal:start',
-            'group' => 'required|exists:groups,id',
-        ]);
-    // Pobierz grupę
-        $group = Group::findOrFail($request->group);
-        $users = $group->users;
+{
+    $request->validate([
+        'title' => 'required|string',
+        'start' => 'required|date',
+        'end' => 'required|date|after_or_equal:start',
+        'group' => 'required|exists:groups,id',
+    ]);
 
-        $event = new Event();
-        $event->title = $request->title;
-        $event->start = $request->start;
-        $event->end = $request->end;
-        $event->user_id = Auth::id();
-        $event->group_id = $request->group;
-        // Zapisz wydarzenie
-        $event->save();
+    $group = Group::findOrFail($request->group);
+    $users = $group->users;
 
-        foreach ($users as $user) {
-            $user->last_event_id = $event->id;
-            $user->save();
+    $event = new Event();
+    $event->title = $request->title;
+    $event->start = $request->start;
+    $event->end = $request->end;
+    $event->user_id = Auth::id();
+    $event->group_id = $request->group;
+
+    // Zapisz wydarzenie
+    $event->save();
+
+    // Zapisz identyfikator wydarzenia dla użytkownika, który dodaje wydarzenie
+    Auth::user()->update(['last_event_id' => $event->id]);
+
+    // Zapisz identyfikator wydarzenia dla pozostałych użytkowników w grupie
+    foreach ($users as $user) {
+        if ($user->id !== Auth::id()) {
+            $user->groups()->updateExistingPivot($group->id, ['last_event_id' => $event->id]);
         }
-        $request->session()->flash('eventAddedNotification', true);
-
-        // Zapisz identyfikator grupy w sesji użytkownika
-        Session::put('selected_group_id', $request->group);
-        
-
-    
-        return response()->json($event);
     }
+
+    // Zapisz identyfikator grupy w sesji użytkownika
+    Session::put('selected_group_id', $request->group);
+
+    return response()->json($event);
+}
+
+
 
 
     public function destroy(Request $request, $event)
 {
-    $event = Event::where('user_id', Auth::id())->find($event);
+    $user = Auth::user();
+    $event = Event::where('user_id', $user->id)->find($event);
+    
     if (!$event) {
         return response()->json(['message' => 'Nie znaleziono spotkania.'], 404);
     }
 
     // Sprawdź, czy usuwane wydarzenie było ostatnim wydarzeniem dla użytkownika
-    $user = $event->user;
     if ($user->last_event_id === $event->id) {
         // Znaleziono, że usuwane wydarzenie było ostatnim, więc ustaw pole last_event_id na null
         $user->update(['last_event_id' => null]);

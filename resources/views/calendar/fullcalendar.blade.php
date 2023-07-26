@@ -11,6 +11,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/css/bootstrap-slider.min.css" />
 @endsection
 
 @section('content')
@@ -29,10 +31,10 @@
                 <div class="form-group">
                     <label for="group">Grupa:</label>
                     <select class="form-control" id="group" name="group">
-                        @foreach ($groups as $group)
+                        @foreach ($user->groups as $group)
                             <option value="{{ $group->id }}">{{ $group->group_name }}</option>
                         @endforeach
-                    </select>
+        </select>
                 </div>
             </div>
             <div class="modal-footer">
@@ -167,7 +169,7 @@
                         $('#titleError').html(error.responseJSON.errors.title);
                     }
                 }
-            });
+            });            
         });
 
     });

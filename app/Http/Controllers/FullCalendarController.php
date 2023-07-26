@@ -14,6 +14,16 @@ class FullcalendarController extends Controller
     public function index(Request $request)
     {
     $user = Auth::user();
+    $groups = $user->groups;
+    $events = Event::where(function ($query) use ($user) {
+        // Pobierz wydarzenia, które stworzył użytkownik
+        $query->where('user_id', $user->id);
+
+        // Pobierz wydarzenia, które są w grupach, do których użytkownik należy
+        $groupIds = $user->groups->pluck('id');
+        $query->orWhereIn('group_id', $groupIds);
+    })->get();
+   
 
     if ($user->last_event_id) {
         // Jeśli last_event_id jest ustawione, wyświetl powiadomienie na stronie głównej
@@ -25,7 +35,7 @@ class FullcalendarController extends Controller
     $groups = Group::all(); // Pobierz wszystkie grupy
     $selectedGroupId = Session::get('selected_group_id'); // Pobierz identyfikator grupy z sesji
 
-    return view('calendar.fullcalendar', compact('groups', 'selectedGroupId'));
+    return view('calendar.fullcalendar', compact('groups', 'selectedGroupId', 'user', 'events'));
     }
 
 
@@ -37,6 +47,7 @@ class FullcalendarController extends Controller
         // Sprawdź, czy identyfikator grupy został zapisany w sesji
         if ($groupIdFromSession) {
             $group = $user->groups()->find($groupIdFromSession);
+            $eventData = [];
 
             // Jeśli użytkownik nie należy do grupy o podanym identyfikatorze z sesji,
             // zwracamy pustą kolekcję wydarzeń
@@ -53,19 +64,20 @@ class FullcalendarController extends Controller
                 return response()->json([]);
             }
         }
-
+        $groups = $user->groups;
+        foreach ($groups as $group) {
         $events = $group->events;
-
-        $formattedEvents = $events->map(function ($event) {
-            return [
+        foreach ($events as $event) {
+            $eventData[] = [
                 'id' => $event->id,
                 'title' => $event->title,
                 'start' => $event->start,
                 'end' => $event->end,
             ];
-        });
+        }
+    }
 
-        return response()->json($formattedEvents);
+    return response()->json($eventData);
     }
 
 
@@ -107,16 +119,25 @@ class FullcalendarController extends Controller
 
 
     public function destroy(Request $request, $event)
-    {
-        $event = Event::where('user_id', Auth::id())->find($event);
-        if (!$event) {
-            return response()->json(['message' => 'Nie znaleziono spotkania.'], 404);
-        }
-
-        $event->delete();
-
-        return response()->json(['message' => 'Spotkanie usunięte.']);
+{
+    $event = Event::where('user_id', Auth::id())->find($event);
+    if (!$event) {
+        return response()->json(['message' => 'Nie znaleziono spotkania.'], 404);
     }
+
+    // Sprawdź, czy usuwane wydarzenie było ostatnim wydarzeniem dla użytkownika
+    $user = $event->user;
+    if ($user->last_event_id === $event->id) {
+        // Znaleziono, że usuwane wydarzenie było ostatnim, więc ustaw pole last_event_id na null
+        $user->update(['last_event_id' => null]);
+    }
+
+    $event->delete();
+
+    return response()->json(['message' => 'Spotkanie usunięte.']);
+}
+
+
     public function saveGroupId(Request $request)
     {
         $request->validate([
